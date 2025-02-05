@@ -28,6 +28,7 @@ export function useFileUpload(): FileUploadReturn {
 
             return response.data
         } catch (error) {
+            console.log(error)
             toast({
                 variant: "destructive",
                 title: "File Upload Failed",

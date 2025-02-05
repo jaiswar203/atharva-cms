@@ -36,12 +36,7 @@ export const authApi = createApi({
       }),
     }),
     signUpUser: builder.mutation<IResponse, ISignUpRequest>({
-      query: ({
-        name,
-        email,
-        password,
-        role,
-      }: ISignUpRequest) => ({
+      query: ({ name, email, password, role }: ISignUpRequest) => ({
         url: "/signup",
         method: HTTP.POST,
         body: {

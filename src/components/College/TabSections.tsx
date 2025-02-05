@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import { ISection, ITable, useAddSectionToTabMutation, useDeleteSectionByIdMutation, useGetSectionsByTabIdQuery, useUpdateSectionByIdMutation } from '@/redux/api/college'
+import { ISection, useAddSectionToTabMutation, useDeleteSectionByIdMutation, useGetSectionsByTabIdQuery, useUpdateSectionByIdMutation } from '@/redux/api/college'
 import { Button } from '../ui/button'
-import { Edit, Plus, Check, X, ImageIcon, VideoIcon, GalleryHorizontal, Users, Table, FileIcon } from 'lucide-react'
+import { Edit, Plus, Check, X, VideoIcon, GalleryHorizontal, Users, Table, FileIcon } from 'lucide-react'
 import Typography from '../ui/typography'
-import { DYNAMIC_VARIABLES_TYPES, MEDIA_POSITION } from '@/types/college'
-import { MDXEditor } from '../Editor/MDXEditor'
+import { MEDIA_POSITION } from '@/types/college'
+import MDXEditor from '../Editor/MDXEditor'
 import { useFieldArray, useForm } from 'react-hook-form'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form'
 import { Input } from '../ui/input'
@@ -20,22 +20,6 @@ import SectionRenderer from '../Preview/SectionRenderer'
 interface IProps {
     tabId: string
     collegeId: string
-}
-
-interface IImage {
-    url: string
-    description: string
-}
-
-interface IPDF {
-    url: string
-    name: string
-    description: string
-}
-interface IDynamicVariable {
-    key?: string
-    type: DYNAMIC_VARIABLES_TYPES
-    media_id: string
 }
 
 export type ISectionFormInput = ISection<string, string>
@@ -69,7 +53,7 @@ const TabSections = ({ tabId, collegeId }: IProps) => {
     const { data } = useGetSectionsByTabIdQuery(tabId)
     const [updateSectionByIdApi, { isLoading: isUpdating }] = useUpdateSectionByIdMutation()
     const [addSectionToTabApi, { isLoading: isAdding }] = useAddSectionToTabMutation()
-    const [deleteSectionByIdApi, { isLoading: isDeleting }] = useDeleteSectionByIdMutation()
+    const [deleteSectionByIdApi] = useDeleteSectionByIdMutation()
 
     const [newSectionName, setNewSectionName] = useState('')
 

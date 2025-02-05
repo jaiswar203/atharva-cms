@@ -11,7 +11,7 @@ interface MobilePreviewProps {
 
 export const MobilePreview = ({ children, className, device = 'iPhone X', color = 'gold', landscape = false }: MobilePreviewProps) => {
     return (
-        <DeviceFrameset device={device} color={color} landscape={landscape}>
+        <DeviceFrameset device={device} color={color} landscape={landscape} className={className}>
             {children}
         </DeviceFrameset>
     )

@@ -16,7 +16,7 @@ import { Avatar, AvatarImage } from "../ui/avatar"
 import { AvatarFallback } from "@radix-ui/react-avatar"
 import { usePathname } from "next/navigation"
 import { useAppSelector } from "@/redux/hook"
-import { Bell, Building2, CircleDashed } from "lucide-react"
+import { Building2 } from "lucide-react"
 
 // Menu items.
 const items = [

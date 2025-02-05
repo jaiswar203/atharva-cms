@@ -1,6 +1,6 @@
 "use client"
 import { useGetCollegeByIdQuery, useUpdateCollegeByIdMutation } from '@/redux/api/college'
-import React, { useState, useEffect, useCallback } from 'react'
+import React, { useState, useEffect } from 'react'
 import Typography from '../ui/typography'
 import { Pencil, X, Eye, Plus } from 'lucide-react'
 import { Button } from '../ui/button'
@@ -369,7 +369,7 @@ const CollegeDetail = ({ id }: IProps) => {
                     </Dialog>
                 </form>
             </Form>
-            <Separator  />
+            <Separator />
             <br />
             <CollegeTabs collegeId={id} />
         </div>
