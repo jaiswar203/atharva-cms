@@ -1,0 +1,185 @@
+/* Base styles for markdown content */
+.markdown-content,
+.mdxeditor-root-contenteditable {
+  color: black;
+  line-height: 1.6;
+  font-size: 16px;
+}
+
+.mdxeditor-root-contenteditable{
+  max-height: 50rem;
+  overflow-y: auto;
+  scrollbar-width: thin;
+}
+
+/* Headings */
+.markdown-content h1,
+.mdxeditor-root-contenteditable h1 {
+  font-size: 2.5em;
+  font-weight: 700;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  line-height: 1.2;
+  color: black; 
+}
+
+.markdown-content h2,
+.mdxeditor-root-contenteditable h2 {
+  font-size: 2em;
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  line-height: 1.3;
+  color: black;
+}
+
+.markdown-content h3,
+.mdxeditor-root-contenteditable h3 {
+  font-size: 1.5em;
+  font-weight: 600;
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  line-height: 1.4;
+  color: var(--primary);
+}
+
+.markdown-content h4,
+.mdxeditor-root-contenteditable h4 {
+  font-size: 1.25em;
+  font-weight: 600;
+  text-align: center;
+  /* margin-top: 1.5em; */
+  /* margin-bottom: 0.5em; */
+  line-height: 1.4;
+  color: var(--primary);
+}
+
+.markdown-content h5,
+.mdxeditor-root-contenteditable h5 {
+  font-size: 1em;
+  font-weight: 500;
+  text-align: center;
+  /* margin-top: 1.5em;
+  margin-bottom: 0.5em; */
+  color: var(--primary);
+  line-height: 1.4;
+  color: #6b7280;
+}
+
+/* Paragraphs and spacing */
+.markdown-content p,
+.mdxeditor-root-contenteditable p {
+  margin-top: 1em;
+  margin-bottom: 1em;
+}
+
+/* Lists */
+.markdown-content ul,
+.markdown-content ol,
+.mdxeditor-root-contenteditable ul,
+.mdxeditor-root-contenteditable ol {
+  margin-top: 1em;
+  margin-bottom: 1em;
+  padding-left: 2em;
+}
+
+.markdown-content ul,
+.mdxeditor-root-contenteditable ul {
+  list-style-type: disc;
+}
+
+.markdown-content ol,
+.mdxeditor-root-contenteditable ol {
+  list-style-type: decimal;
+}
+
+.markdown-content li,
+.mdxeditor-root-contenteditable li {
+  margin-top: 0.5em;
+  margin-bottom: 0.5em;
+}
+
+/* Links */
+.markdown-content a,
+.mdxeditor-root-contenteditable a {
+  color: #2563eb;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.markdown-content a:hover,
+.mdxeditor-root-contenteditable a:hover {
+  color: #1d4ed8;
+}
+
+/* Blockquotes */
+.markdown-content blockquote,
+.mdxeditor-root-contenteditable blockquote {
+  border-left: 4px solid black;
+  padding-left: 1em;
+  margin: 1.5em 0;
+  color: black;
+  font-style: italic;
+}
+
+/* Code blocks */
+.markdown-content pre,
+.mdxeditor-root-contenteditable pre {
+  background-color: black;
+  color: black;
+  padding: 1em;
+  border-radius: 0.5em;
+  overflow-x: auto;
+  margin: 1.5em 0;
+}
+
+.markdown-content code,
+.mdxeditor-root-contenteditable code {
+  background-color: black;
+  padding: 0.2em 0.4em;
+  border-radius: 0.25em;
+  font-size: 0.875em;
+  color: black;
+}
+
+/* Tables */
+.markdown-content table,
+.mdxeditor-root-contenteditable table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1.5em 0;
+}
+
+.markdown-content th,
+.markdown-content td,
+.mdxeditor-root-contenteditable th,
+.mdxeditor-root-contenteditable td {
+  border: 1px solid black;
+  padding: 0.75em;
+  text-align: left;
+}
+
+.markdown-content th,
+.mdxeditor-root-contenteditable th {
+  /* background-color: black; */
+  font-weight: 600;
+}
+
+/* Images */
+.markdown-content img,
+.mdxeditor-root-contenteditable img {
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  border-radius: 0.5em;
+  margin: 1.5em 0;
+
+}
+
+/* Horizontal rule */
+.markdown-content hr,
+.mdxeditor-root-contenteditable hr {
+  border: 0;
+  border-top: 2px solid black;
+  margin: 2em 0;
+}
