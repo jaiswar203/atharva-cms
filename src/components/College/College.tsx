@@ -7,7 +7,7 @@ import { Button } from '../ui/button'
 import { Plus } from 'lucide-react'
 
 const College = () => {
-    const { data, isLoading, isError } = useGetCollegesQuery()
+    const { data } = useGetCollegesQuery()
 
     return (
         <div>

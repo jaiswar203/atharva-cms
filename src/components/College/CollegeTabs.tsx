@@ -86,6 +86,7 @@ const CollegeTabs = ({ collegeId }: IProps) => {
                 description: "Tab has been updated successfully",
             })
         } catch (error) {
+            console.log(error)
             setIsEditing(false)
             toast({
                 title: "Error",
@@ -110,8 +111,10 @@ const CollegeTabs = ({ collegeId }: IProps) => {
                 description: "Tab has been added successfully",
             })
         } catch (error) {
+            console.log(error)
             setIsAdding(false)
             toast({
+
                 title: "Error",
                 description: "Something went wrong",
                 variant: "destructive",

@@ -41,7 +41,7 @@ interface MDXEditorProps extends Omit<BaseMDXEditorProps, 'plugins'> {
     onImageUpload?: (file: File) => Promise<string>
 }
 
-export const MDXEditor = forwardRef<MDXEditorMethods, MDXEditorProps>(
+const MDXEditor = forwardRef<MDXEditorMethods, MDXEditorProps>(
     ({ editable = true, onImageUpload, ...props }, ref) => {
         const editorRef = useRef<MDXEditorMethods>(null)
 
@@ -137,7 +137,7 @@ export const MDXEditor = forwardRef<MDXEditorMethods, MDXEditorProps>(
                                         <CodeToggle />
                                         <ListsToggle />
                                         <CreateLink />
-                                        <InsertImage  />
+                                        <InsertImage />
                                         <InsertThematicBreak />
                                     </div>
                                 )
@@ -149,3 +149,7 @@ export const MDXEditor = forwardRef<MDXEditorMethods, MDXEditorProps>(
         )
     }
 )
+
+MDXEditor.displayName = 'MDXEditor'
+
+export default MDXEditor

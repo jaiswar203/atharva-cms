@@ -42,6 +42,7 @@ const Auth: React.FC<IAuth> = ({ isLogin = true }) => {
             dispatch(setUser(res?.data));
             router.push('/');
         } catch (error: any) {
+            console.log(error)
             if (error.status === 401) toast({
                 title: 'Invalid email or password',
                 description: "Please enter a valid email and password.",
