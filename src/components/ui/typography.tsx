@@ -20,7 +20,7 @@ const Typography: React.FC<TypographyProps> = ({ variant, children, className = 
         span: `text-sm font-normal  ${baseStyles}`,
     };
 
-    const Tag = variant as keyof JSX.IntrinsicElements;
+    const Tag = variant as keyof React.JSX.IntrinsicElements;
 
     return (
         <Tag className={cn(styles[variant], className)}>
