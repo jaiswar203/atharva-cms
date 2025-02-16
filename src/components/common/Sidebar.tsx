@@ -16,7 +16,7 @@ import { Avatar, AvatarImage } from "../ui/avatar"
 import { AvatarFallback } from "@radix-ui/react-avatar"
 import { usePathname } from "next/navigation"
 import { useAppSelector } from "@/redux/hook"
-import { Building2 } from "lucide-react"
+import { Building2, File } from "lucide-react"
 
 // Menu items.
 const items = [
@@ -25,6 +25,11 @@ const items = [
         url: "colleges",
         icon: Building2,
     },
+    {
+        title: "Pages",
+        url: "pages",
+        icon: File,
+    }
 ]
 
 export function AppSidebar() {

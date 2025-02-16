@@ -13,17 +13,18 @@ import { thunk } from "redux-thunk";
 import { appSlice } from "./slice/app";
 import { collegeApi } from "./api/college";
 import { authApi } from "./api/auth";
-
+import { contentApi } from "./api/content";
 const rootReducer = combineReducers({
   app: appSlice.reducer,
   [collegeApi.reducerPath]: collegeApi.reducer,
   [authApi.reducerPath]: authApi.reducer,
+  [contentApi.reducerPath]: contentApi.reducer,
 });
 
 const persistConfig = {
   key: "root",
   storage,
-  blacklist: [collegeApi.reducerPath, authApi.reducerPath],
+  blacklist: [collegeApi.reducerPath, authApi.reducerPath, contentApi.reducerPath],
 };
 
 const persistedReducer = persistReducer(persistConfig, rootReducer);
@@ -37,7 +38,7 @@ export const makeStore = () =>
         serializableCheck: {
           ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
         },
-      }).concat(thunk, collegeApi.middleware, authApi.middleware),
+      }).concat(thunk, collegeApi.middleware, authApi.middleware, contentApi.middleware),
   });
 
 // Infer the type of makeStore
