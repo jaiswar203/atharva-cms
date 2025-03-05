@@ -133,7 +133,7 @@ export interface CreateFestivalDto {
   time: string;
 }
 
-export interface UpdateFestivalDto extends Partial<CreateFestivalDto> {}
+export type UpdateFestivalDto = Partial<CreateFestivalDto>;
 
 export const collegeApi = createApi({
   reducerPath: "college",

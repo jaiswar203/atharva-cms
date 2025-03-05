@@ -77,6 +77,7 @@ const NoticeDetail = ({ notice, onClose }: NoticeDetailProps) => {
             }
             onClose()
         } catch (error) {
+            console.log(error)
             toast({
                 title: "Error",
                 description: "Something went wrong",

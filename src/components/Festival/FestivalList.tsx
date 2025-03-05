@@ -1,9 +1,8 @@
 'use client'
 import React from 'react'
-import { useGetFestivalsQuery, IFestival, useDeleteFestivalMutation } from "@/redux/api/college"
+import { useGetFestivalsQuery, useDeleteFestivalMutation } from "@/redux/api/college"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Loader2, Calendar, Clock, Trash2, Image as ImageIcon, Plus } from "lucide-react"
-import Link from "next/link"
 import { Button } from '../ui/button'
 import Image from 'next/image'
 import {

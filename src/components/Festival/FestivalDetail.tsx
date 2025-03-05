@@ -12,8 +12,7 @@ import { toast } from '@/hooks/use-toast'
 import { X, CalendarIcon } from 'lucide-react'
 import Image from 'next/image'
 import MDXEditor, { MDXEditorMethods } from '../Editor/MDXEditor'
-import { DateRange } from 'react-day-picker'
-import { addDays, format } from 'date-fns'
+import { format } from 'date-fns'
 import { Calendar } from '../ui/calendar'
 import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
 import { cn } from '@/lib/utils'
@@ -110,6 +109,7 @@ const FestivalDetail = ({ festival, onClose }: FestivalDetailProps) => {
             }
             onClose()
         } catch (error) {
+            console.log(error)
             toast({
                 title: "Error",
                 description: "Something went wrong",
