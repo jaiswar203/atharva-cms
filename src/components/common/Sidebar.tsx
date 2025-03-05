@@ -16,7 +16,7 @@ import { Avatar, AvatarImage } from "../ui/avatar"
 import { AvatarFallback } from "@radix-ui/react-avatar"
 import { usePathname } from "next/navigation"
 import { useAppSelector } from "@/redux/hook"
-import { Building2, File } from "lucide-react"
+import { Bell, Building2, Calendar, File } from "lucide-react"
 
 // Menu items.
 const items = [
@@ -29,6 +29,16 @@ const items = [
         title: "Pages",
         url: "pages",
         icon: File,
+    },
+    {
+        title: "Notice",
+        url: "notices",
+        icon: Bell,
+    },
+    {
+        title: "Festivals",
+        url: "festivals",
+        icon: Calendar,
     }
 ]
 
