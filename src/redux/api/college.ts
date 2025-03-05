@@ -5,6 +5,7 @@ import { RootState } from "../store";
 import { ICollegeFormInputs } from "@/components/College/CollegeDetail";
 import { ITabFormInputs } from "@/components/College/CollegeTabs";
 import { ISectionFormInput } from "@/components/College/TabSections";
+import { NoticeFormInputs } from "@/components/Notice/NoticeDetail";
 
 export interface ICollege {
   _id: string;
@@ -97,6 +98,43 @@ export interface ISection<T = ITable, D = IDynamicVariable> {
   dynamic_variables?: D[];
 }
 
+export interface INotice {
+  _id: string;
+  title: string;
+  description: string;
+  date: Date;
+  attachments: Array<{ id: number; name: string; url: string }>;
+  link: string;
+  college: string;
+}
+
+export interface IFestival {
+  _id: string;
+  name: string;
+  description: string;
+  content: string;
+  banner_image: string;
+  images: string[];
+  college_id: string;
+  date: string;
+  time: string;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
+export interface CreateFestivalDto {
+  name: string;
+  description: string;
+  content?: string;
+  banner_image?: string;
+  images?: string[];
+  college_id: string;
+  date: string;
+  time: string;
+}
+
+export interface UpdateFestivalDto extends Partial<CreateFestivalDto> {}
+
 export const collegeApi = createApi({
   reducerPath: "college",
   baseQuery: fetchBaseQuery({
@@ -109,7 +147,16 @@ export const collegeApi = createApi({
       return headers;
     },
   }),
-  tagTypes: ["Colleges", "Tabs", "Sections", "SINGLE_COLLEGE"],
+  tagTypes: [
+    "Colleges",
+    "Tabs",
+    "Sections",
+    "SINGLE_COLLEGE",
+    "Notices",
+    "SINGLE_NOTICE",
+    "Festivals",
+    "SINGLE_FESTIVAL",
+  ],
   endpoints: (builder) => ({
     getColleges: builder.query<IResponse<ICollege[]>, void>({
       query: () => ({
@@ -158,6 +205,16 @@ export const collegeApi = createApi({
         method: HTTP.GET,
       }),
       providesTags: ["Sections"],
+    }),
+    getNotices: builder.query<
+      IResponse<(INotice & { college: ICollege })[]>,
+      void
+    >({
+      query: () => ({
+        url: "/notices",
+        method: HTTP.GET,
+      }),
+      providesTags: ["Notices"],
     }),
     uploadFile: builder.mutation<IResponse, File>({
       query: (file) => {
@@ -273,6 +330,72 @@ export const collegeApi = createApi({
       }),
       invalidatesTags: ["Sections"],
     }),
+    addNotice: builder.mutation<IResponse<INotice>, NoticeFormInputs>({
+      query: (data) => ({
+        url: "/notices",
+        method: HTTP.POST,
+        body: data,
+      }),
+      invalidatesTags: ["Notices", "SINGLE_NOTICE"],
+    }),
+    updateNoticeById: builder.mutation<
+      IResponse<INotice>,
+      { data: NoticeFormInputs; id: string }
+    >({
+      query: ({ data, id }) => ({
+        url: `/notices/${id}`,
+        method: HTTP.PATCH,
+        body: data,
+      }),
+      invalidatesTags: ["Notices", "SINGLE_NOTICE"],
+    }),
+    deleteNoticeById: builder.mutation<IResponse, string>({
+      query: (id) => ({
+        url: `/notices/${id}`,
+        method: HTTP.DELETE,
+      }),
+      invalidatesTags: ["Notices", "SINGLE_NOTICE"],
+    }),
+    getFestivals: builder.query<IResponse<IFestival[]>, void>({
+      query: () => ({
+        url: "/festivals",
+        method: HTTP.GET,
+      }),
+      providesTags: ["Festivals"],
+    }),
+    getFestivalById: builder.query<IResponse<IFestival>, string>({
+      query: (id) => ({
+        url: `/festivals/${id}`,
+        method: HTTP.GET,
+      }),
+      providesTags: ["SINGLE_FESTIVAL"],
+    }),
+    createFestival: builder.mutation<IResponse<IFestival>, CreateFestivalDto>({
+      query: (data) => ({
+        url: "/festivals",
+        method: HTTP.POST,
+        body: data,
+      }),
+      invalidatesTags: ["Festivals", "SINGLE_COLLEGE"],
+    }),
+    updateFestival: builder.mutation<
+      IResponse<IFestival>,
+      { id: string; data: UpdateFestivalDto }
+    >({
+      query: ({ id, data }) => ({
+        url: `/festivals/${id}`,
+        method: HTTP.PATCH,
+        body: data,
+      }),
+      invalidatesTags: ["Festivals", "SINGLE_FESTIVAL", "SINGLE_COLLEGE"],
+    }),
+    deleteFestival: builder.mutation<IResponse, string>({
+      query: (id) => ({
+        url: `/festivals/${id}`,
+        method: HTTP.DELETE,
+      }),
+      invalidatesTags: ["Festivals", "SINGLE_FESTIVAL", "SINGLE_COLLEGE"],
+    }),
   }),
 });
 
@@ -293,4 +416,13 @@ export const {
   useUpdateSectionByIdMutation,
   useAddSectionToTabMutation,
   useDeleteSectionByIdMutation,
+  useGetNoticesQuery,
+  useAddNoticeMutation,
+  useUpdateNoticeByIdMutation,
+  useDeleteNoticeByIdMutation,
+  useGetFestivalsQuery,
+  useGetFestivalByIdQuery,
+  useCreateFestivalMutation,
+  useUpdateFestivalMutation,
+  useDeleteFestivalMutation,
 } = collegeApi;

@@ -41,6 +41,8 @@ interface MDXEditorProps extends Omit<BaseMDXEditorProps, 'plugins'> {
     onImageUpload?: (file: File) => Promise<string>
 }
 
+export type { MDXEditorMethods }
+
 const MDXEditor = forwardRef<MDXEditorMethods, MDXEditorProps>(
     ({ editable = true, onImageUpload, ...props }, ref) => {
         const editorRef = useRef<MDXEditorMethods>(null)
