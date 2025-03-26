@@ -4,7 +4,7 @@ import { IResponse } from "./auth";
 import { RootState } from "../store";
 import { ICollegeFormInputs } from "@/components/College/CollegeDetail";
 import { ITabFormInputs } from "@/components/College/CollegeTabs";
-import { ISectionFormInput } from "@/components/College/TabSections";
+import { ISectionFormInput } from "@/components/Section";
 import { NoticeFormInputs } from "@/components/Notice/NoticeDetail";
 
 export interface ICollege {
@@ -122,6 +122,18 @@ export interface IFestival {
   updatedAt?: string;
 }
 
+export interface IHighlight {
+  _id: string;
+  title: string;
+  description: string;
+  banner_image: string;
+  carousel_images: string[];
+  section: ISection;
+  college: Pick<ICollege, "name" | "_id">;
+  createdAt?: string;
+  updatedAt?: string;
+}
+
 export interface CreateFestivalDto {
   name: string;
   description: string;
@@ -133,7 +145,17 @@ export interface CreateFestivalDto {
   time: string;
 }
 
+export interface CreateHighlightDto {
+  title: string;
+  description: string;
+  banner_image: string;
+  carousel_images?: string[];
+  college_id: string;
+  section_id?: string;
+}
+
 export type UpdateFestivalDto = Partial<CreateFestivalDto>;
+export type UpdateHighlightDto = Partial<CreateHighlightDto>;
 
 export const collegeApi = createApi({
   reducerPath: "college",
@@ -156,6 +178,8 @@ export const collegeApi = createApi({
     "SINGLE_NOTICE",
     "Festivals",
     "SINGLE_FESTIVAL",
+    "Highlights",
+    "SINGLE_HIGHLIGHT",
   ],
   endpoints: (builder) => ({
     getColleges: builder.query<IResponse<ICollege[]>, void>({
@@ -396,6 +420,64 @@ export const collegeApi = createApi({
       }),
       invalidatesTags: ["Festivals", "SINGLE_FESTIVAL", "SINGLE_COLLEGE"],
     }),
+    getHighlights: builder.query<IResponse<IHighlight[]>, void>({
+      query: () => ({
+        url: "/highlights",
+        method: HTTP.GET,
+      }),
+      providesTags: ["Highlights"],
+    }),
+    getHighlightById: builder.query<IResponse<IHighlight>, string>({
+      query: (id) => ({
+        url: `/highlights/${id}`,
+        method: HTTP.GET,
+      }),
+      providesTags: ["SINGLE_HIGHLIGHT"],
+    }),
+    createHighlight: builder.mutation<
+      IResponse<IHighlight>,
+      CreateHighlightDto
+    >({
+      query: (data) => ({
+        url: "/highlights",
+        method: HTTP.POST,
+        body: data,
+      }),
+      invalidatesTags: ["Highlights", "SINGLE_COLLEGE"],
+    }),
+    updateHighlight: builder.mutation<
+      IResponse<IHighlight>,
+      { id: string; data: UpdateHighlightDto }
+    >({
+      query: ({ id, data }) => ({
+        url: `/highlights/${id}`,
+        method: HTTP.PATCH,
+        body: data,
+      }),
+      invalidatesTags: ["Highlights", "SINGLE_HIGHLIGHT", "SINGLE_COLLEGE"],
+    }),
+    deleteHighlight: builder.mutation<IResponse, string>({
+      query: (id) => ({
+        url: `/highlights/${id}`,
+        method: HTTP.DELETE,
+      }),
+      invalidatesTags: ["Highlights", "SINGLE_HIGHLIGHT", "SINGLE_COLLEGE"],
+    }),
+    addSectionToHighlight: builder.mutation<
+      IResponse,
+      {
+        collegeId: string;
+        highlightId: string;
+        data: Pick<ISectionFormInput, "name">;
+      }
+    >({
+      query: ({ collegeId, highlightId, data }) => ({
+        url: `/${collegeId}/highlights/${highlightId}/sections`,
+        method: HTTP.POST,
+        body: data,
+      }),
+      invalidatesTags: ["Highlights", "SINGLE_HIGHLIGHT", "Sections"],
+    }),
   }),
 });
 
@@ -425,4 +507,10 @@ export const {
   useCreateFestivalMutation,
   useUpdateFestivalMutation,
   useDeleteFestivalMutation,
+  useGetHighlightsQuery,
+  useGetHighlightByIdQuery,
+  useCreateHighlightMutation,
+  useUpdateHighlightMutation,
+  useDeleteHighlightMutation,
+  useAddSectionToHighlightMutation,
 } = collegeApi;
