@@ -129,9 +129,19 @@ export interface IHighlight {
   banner_image: string;
   carousel_images: string[];
   section: ISection;
+  index: number;
   college: Pick<ICollege, "name" | "_id">;
   createdAt?: string;
   updatedAt?: string;
+}
+
+export interface HighlightOrderItem {
+  id: string;
+  index: number;
+}
+
+export interface ChangeHighlightOrderDto {
+  highlights: HighlightOrderItem[];
 }
 
 export interface CreateFestivalDto {
@@ -463,6 +473,14 @@ export const collegeApi = createApi({
       }),
       invalidatesTags: ["Highlights", "SINGLE_HIGHLIGHT", "SINGLE_COLLEGE"],
     }),
+    changeHighlightOrder: builder.mutation<IResponse, ChangeHighlightOrderDto>({
+      query: (data) => ({
+        url: `/highlights/order`,
+        method: HTTP.PATCH,
+        body: data,
+      }),
+      invalidatesTags: ["Highlights"],
+    }),
     addSectionToHighlight: builder.mutation<
       IResponse,
       {
@@ -512,5 +530,6 @@ export const {
   useCreateHighlightMutation,
   useUpdateHighlightMutation,
   useDeleteHighlightMutation,
+  useChangeHighlightOrderMutation,
   useAddSectionToHighlightMutation,
 } = collegeApi;
