@@ -58,7 +58,7 @@ const HighlightDetail = ({ highlight, onClose }: HighlightDetailProps) => {
             form.setValue('carousel_images', highlight.carousel_images || [])
             form.setValue('college_id', highlight.college?._id || '')
             form.setValue('section_id', highlight.section?._id || '')
-            
+
             setSelectedCollege(highlight.college?._id || '')
             setSelectedSectionId(highlight.section?._id || '')
             setCreatedHighlightId(highlight._id)
@@ -122,7 +122,7 @@ const HighlightDetail = ({ highlight, onClose }: HighlightDetailProps) => {
             if (result.data?._id) {
                 setSelectedSectionId(result.data._id)
                 form.setValue('section_id', result.data._id)
-                
+
                 toast({
                     title: "Success",
                     description: "Section created successfully. You can now edit its content.",
@@ -153,7 +153,7 @@ const HighlightDetail = ({ highlight, onClose }: HighlightDetailProps) => {
         if (!files) return
 
         const currentImages = form.getValues('carousel_images') || []
-        
+
         for (const file of files) {
             const url = await uploadFile(file)
             if (url) {
@@ -180,7 +180,7 @@ const HighlightDetail = ({ highlight, onClose }: HighlightDetailProps) => {
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>College</FormLabel>
-                                <Select 
+                                <Select
                                     onValueChange={(value) => {
                                         field.onChange(value)
                                         setSelectedCollege(value)
@@ -189,7 +189,7 @@ const HighlightDetail = ({ highlight, onClose }: HighlightDetailProps) => {
                                             form.setValue('section_id', '')
                                             setSelectedSectionId('')
                                         }
-                                    }} 
+                                    }}
                                     value={field.value}
                                 >
                                     <FormControl>
@@ -244,16 +244,6 @@ const HighlightDetail = ({ highlight, onClose }: HighlightDetailProps) => {
                         render={({ field }) => (
                             <FormItem>
                                 <FormLabel>Banner Image</FormLabel>
-                                {field.value && (
-                                    <div className="relative w-full h-48 mb-2">
-                                        <Image
-                                            src={field.value}
-                                            alt="Banner"
-                                            fill
-                                            className="object-cover rounded-lg"
-                                        />
-                                    </div>
-                                )}
                                 <FormControl>
                                     <Input
                                         type="file"
@@ -262,6 +252,17 @@ const HighlightDetail = ({ highlight, onClose }: HighlightDetailProps) => {
                                         disabled={uploading}
                                     />
                                 </FormControl>
+                                {field.value && (
+                                    <div className="relative w-full flex justify-center mb-2">
+                                        <Image
+                                            src={field.value}
+                                            alt="Banner"
+                                            width={400}
+                                            height={200}
+                                            className="object-cover rounded-lg"
+                                        />
+                                    </div>
+                                )}
                             </FormItem>
                         )}
                     />
@@ -278,7 +279,7 @@ const HighlightDetail = ({ highlight, onClose }: HighlightDetailProps) => {
                                             <Image
                                                 src={image}
                                                 alt={`Carousel ${index + 1}`}
-                                                width={200}
+                                                width={400}
                                                 height={200}
                                                 className="object-cover rounded-lg"
                                             />
@@ -328,7 +329,7 @@ const HighlightDetail = ({ highlight, onClose }: HighlightDetailProps) => {
                     <Typography variant="p" className="text-sm text-gray-500 mb-4">
                         This section will be displayed on the highlight page. You can edit its content below.
                     </Typography>
-                    
+
                     {(createdHighlightId || highlight?._id) && selectedSectionId ? (
                         <SingleSection
                             sectionId={selectedSectionId}
@@ -339,12 +340,12 @@ const HighlightDetail = ({ highlight, onClose }: HighlightDetailProps) => {
                     ) : (
                         <div className="bg-gray-100 p-4 rounded-md">
                             <Typography variant="p" className="text-center mb-4">
-                                {!createdHighlightId && !highlight?._id 
-                                    ? "Save the highlight first to manage its section" 
+                                {!createdHighlightId && !highlight?._id
+                                    ? "Save the highlight first to manage its section"
                                     : "No section associated with this highlight yet. Create one by clicking the button below."}
                             </Typography>
                             {(createdHighlightId || highlight?._id) && (
-                                <Button 
+                                <Button
                                     className="w-full"
                                     onClick={handleCreateSection}
                                     disabled={isAddingSection}
