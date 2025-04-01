@@ -1,5 +1,5 @@
 'use client'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { useGetHighlightsQuery, useDeleteHighlightMutation, useChangeHighlightOrderMutation } from "@/redux/api/college"
 import { Card, CardContent, CardDescription, CardFooter, CardTitle } from "@/components/ui/card"
 import { Loader2, Trash2, PlusCircle, Eye, Sparkles, Images, ArrowUpDown, GripVertical } from "lucide-react"
@@ -22,11 +22,11 @@ const HighLight = () => {
   const { data, isLoading, isError } = useGetHighlightsQuery()
   const [deleteHighlight, { isLoading: isDeleting }] = useDeleteHighlightMutation()
   const [changeHighlightOrder, { isLoading: isChangingOrder }] = useChangeHighlightOrderMutation()
-  const [highlightToDelete, setHighlightToDelete] = React.useState<string | null>(null)
-  const [showOrderModal, setShowOrderModal] = React.useState(false)
-  const [highlightOrder, setHighlightOrder] = React.useState<Array<{ id: string; index: number; title: string }>>([])
+  const [highlightToDelete, setHighlightToDelete] = useState<string | null>(null)
+  const [showOrderModal, setShowOrderModal] = useState(false)
+  const [highlightOrder, setHighlightOrder] = useState<Array<{ id: string; index: number; title: string }>>([])
 
-  React.useEffect(() => {
+  useEffect(() => {
     if (data?.data) {
       const sortedHighlights = [...data.data].sort((a, b) => a.index - b.index)
       setHighlightOrder(sortedHighlights.map(h => ({

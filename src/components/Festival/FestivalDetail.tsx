@@ -9,13 +9,11 @@ import { Button } from '../ui/button'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../ui/select'
 import { useFileUpload } from '@/hooks/useFileUpload'
 import { toast } from '@/hooks/use-toast'
-import { X, CalendarIcon } from 'lucide-react'
+import { X } from 'lucide-react'
 import Image from 'next/image'
 import MDXEditor, { MDXEditorMethods } from '../Editor/MDXEditor'
 import { format } from 'date-fns'
-import { Calendar } from '../ui/calendar'
-import { Popover, PopoverContent, PopoverTrigger } from '../ui/popover'
-import { cn } from '@/lib/utils'
+import DatePicker from '@/components/ui/datepicker'
 
 export type FestivalFormInputs = {
     name: string;
@@ -41,8 +39,8 @@ const FestivalDetail = ({ festival, onClose }: FestivalDetailProps) => {
     const editorRef = useRef<MDXEditorMethods>(null)
     const [startDate, setStartDate] = React.useState<Date | undefined>(undefined)
     const [endDate, setEndDate] = React.useState<Date | undefined>(undefined)
-    const [startTime, setStartTime] = React.useState<string>('10:00 AM')
-    const [endTime, setEndTime] = React.useState<string>('10:00 PM')
+    const [startTime, setStartTime] = React.useState<string>('')
+    const [endTime, setEndTime] = React.useState<string>('')
 
     // Parse the date range if it exists
     React.useEffect(() => {
@@ -133,7 +131,7 @@ const FestivalDetail = ({ festival, onClose }: FestivalDetailProps) => {
         if (!files) return
 
         const currentImages = form.getValues('images') || []
-        
+
         for (const file of files) {
             const url = await uploadFile(file)
             if (url) {
@@ -234,104 +232,87 @@ const FestivalDetail = ({ festival, onClose }: FestivalDetailProps) => {
                 <div className="grid grid-cols-2 gap-4">
                     <FormItem className="flex flex-col">
                         <FormLabel>Start Date</FormLabel>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full pl-3 text-left font-normal",
-                                        !startDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    {startDate ? (
-                                        format(startDate, "PPP")
-                                    ) : (
-                                        <span>Pick a date</span>
-                                    )}
-                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
-                                <Calendar
-                                    mode="single"
-                                    selected={startDate}
-                                    onSelect={setStartDate}
-                                    disabled={(date) =>
-                                        date < new Date()
-                                    }
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
+                        <DatePicker
+                            date={startDate}
+                            onDateChange={setStartDate}
+                            placeholder="Select start date"
+                        />
                     </FormItem>
 
                     <FormItem className="flex flex-col">
                         <FormLabel>End Date</FormLabel>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <Button
-                                    variant={"outline"}
-                                    className={cn(
-                                        "w-full pl-3 text-left font-normal",
-                                        !endDate && "text-muted-foreground"
-                                    )}
-                                >
-                                    {endDate ? (
-                                        format(endDate, "PPP")
-                                    ) : (
-                                        <span>Pick a date</span>
-                                    )}
-                                    <CalendarIcon className="ml-auto h-4 w-4 opacity-50" />
-                                </Button>
-                            </PopoverTrigger>
-                            <PopoverContent className="w-auto p-0" align="start">
-                                <Calendar
-                                    mode="single"
-                                    selected={endDate}
-                                    onSelect={setEndDate}
-                                    disabled={(date) =>
-                                        date < (startDate || new Date())
-                                    }
-                                    initialFocus
-                                />
-                            </PopoverContent>
-                        </Popover>
+                        <DatePicker
+                            date={endDate}
+                            onDateChange={setEndDate}
+                            placeholder="Select end date"
+                            disabled={!startDate}
+                        />
                     </FormItem>
                 </div>
 
                 <div className="grid grid-cols-2 gap-4">
                     <FormItem>
                         <FormLabel>Start Time</FormLabel>
-                        <Input
-                            type="time"
-                            value={startTime}
-                            onChange={(e) => {
-                                const time = e.target.value
-                                const formattedTime = new Date(`2000-01-01T${time}`).toLocaleTimeString('en-US', {
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                    hour12: true
-                                })
-                                setStartTime(formattedTime)
-                            }}
-                        />
+                        <Select 
+                            value={startTime} 
+                            onValueChange={setStartTime}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select start time">
+                                    {startTime || "Select start time"}
+                                </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                                {Array.from({ length: 24 }).map((_, hour) => (
+                                    [0, 30].map(minute => {
+                                        const timeValue = new Date();
+                                        timeValue.setHours(hour, minute);
+                                        const timeString = timeValue.toLocaleTimeString('en-US', {
+                                            hour: 'numeric',
+                                            minute: 'numeric',
+                                            hour12: true
+                                        });
+                                        return (
+                                            <SelectItem key={`${hour}:${minute}`} value={timeString}>
+                                                {timeString}
+                                            </SelectItem>
+                                        );
+                                    })
+                                )).flat()}
+                            </SelectContent>
+                        </Select>
                     </FormItem>
 
                     <FormItem>
                         <FormLabel>End Time</FormLabel>
-                        <Input
-                            type="time"
-                            value={endTime}
-                            onChange={(e) => {
-                                const time = e.target.value
-                                const formattedTime = new Date(`2000-01-01T${time}`).toLocaleTimeString('en-US', {
-                                    hour: 'numeric',
-                                    minute: 'numeric',
-                                    hour12: true
-                                })
-                                setEndTime(formattedTime)
-                            }}
-                        />
+                        <Select 
+                            value={endTime} 
+                            onValueChange={setEndTime}
+                        >
+                            <SelectTrigger>
+                                <SelectValue placeholder="Select end time">
+                                    {endTime || "Select end time"}
+                                </SelectValue>
+                            </SelectTrigger>
+                            <SelectContent>
+                                {Array.from({ length: 24 }).map((_, hour) => (
+                                    [0, 30].map(minute => {
+                                        const timeValue = new Date();
+                                        timeValue.setHours(hour, minute);
+                                        const timeString = timeValue.toLocaleTimeString('en-US', {
+                                            hour: 'numeric',
+                                            minute: 'numeric',
+                                            hour12: true
+                                        });
+                                        return (
+                                            <SelectItem key={`${hour}:${minute}`} value={timeString}>
+                                                {timeString}
+                                            </SelectItem>
+                                        );
+                                    })
+                                )).flat()}
+                            </SelectContent>
+                        </Select>
                     </FormItem>
                 </div>
 
@@ -342,14 +323,16 @@ const FestivalDetail = ({ festival, onClose }: FestivalDetailProps) => {
                         <FormItem>
                             <FormLabel>Banner Image</FormLabel>
                             {field.value && (
-                                <div className="relative w-full h-48 mb-2">
+                                <div className="flex items-center justify-center">
                                     <Image
                                         src={field.value}
                                         alt="Banner"
-                                        fill
+                                        width={500}
+                                        height={250}
                                         className="object-cover rounded-lg"
                                     />
                                 </div>
+
                             )}
                             <FormControl>
                                 <Input
