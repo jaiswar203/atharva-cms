@@ -199,6 +199,13 @@ export const collegeApi = createApi({
       }),
       providesTags: ["Colleges"],
     }),
+    deleteCollege: builder.mutation<IResponse<ICollege>, string>({
+      query: (id) => ({
+        url: `/${id}`,
+        method: HTTP.DELETE,
+      }),
+      invalidatesTags: ["Colleges"],
+    }),
     getCollegeById: builder.query<IResponse<ICollege>, string>({
       query: (collegeId) => ({
         url: `/${collegeId}`,
@@ -532,4 +539,5 @@ export const {
   useDeleteHighlightMutation,
   useChangeHighlightOrderMutation,
   useAddSectionToHighlightMutation,
+  useDeleteCollegeMutation,
 } = collegeApi;
