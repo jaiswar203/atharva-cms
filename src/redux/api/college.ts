@@ -167,6 +167,14 @@ export interface CreateHighlightDto {
 export type UpdateFestivalDto = Partial<CreateFestivalDto>;
 export type UpdateHighlightDto = Partial<CreateHighlightDto>;
 
+export interface CreateCollegeDto {
+  name: string;
+  description: string;
+  logo: string;
+  banner_image: string;
+  carousel_images?: string[];
+}
+
 export const collegeApi = createApi({
   reducerPath: "college",
   baseQuery: fetchBaseQuery({
@@ -198,6 +206,14 @@ export const collegeApi = createApi({
         method: HTTP.GET,
       }),
       providesTags: ["Colleges"],
+    }),
+    createCollege: builder.mutation<IResponse<ICollege>, CreateCollegeDto>({
+      query: (data) => ({
+        url: "",
+        method: HTTP.POST,
+        body: data,
+      }),
+      invalidatesTags: ["Colleges"],
     }),
     deleteCollege: builder.mutation<IResponse<ICollege>, string>({
       query: (id) => ({
@@ -540,4 +556,5 @@ export const {
   useChangeHighlightOrderMutation,
   useAddSectionToHighlightMutation,
   useDeleteCollegeMutation,
+  useCreateCollegeMutation,
 } = collegeApi;
