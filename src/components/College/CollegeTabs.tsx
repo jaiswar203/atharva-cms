@@ -16,10 +16,10 @@ import { Button } from '../ui/button'
 import Typography from '../ui/typography'
 import { Form, FormControl, FormField, FormItem, FormLabel } from '../ui/form'
 import { Input } from '../ui/input'
-import { Textarea } from '../ui/textarea'
 import { toast } from '@/hooks/use-toast'
 import { Dialog, DialogContent, DialogFooter, DialogHeader, DialogTitle } from '../ui/dialog'
 import TabSections from './TabSections'
+import MDXEditor from '../Editor/MDXEditor'
 
 interface IProps {
     collegeId: string
@@ -142,7 +142,7 @@ const CollegeTabs = ({ collegeId }: IProps) => {
             </div>
             <br />
             {
-                data?.data?.length && (
+                data?.data?.length ? (
                     <Carousel
                         opts={{
                             align: "start",
@@ -171,6 +171,10 @@ const CollegeTabs = ({ collegeId }: IProps) => {
                         <CarouselPrevious className="left-2" type='button' />
                         <CarouselNext className="right-2" type='button' />
                     </Carousel>
+                ) : (
+                    <div className="flex justify-center items-center h-full">
+                        <Typography variant="h3" className='font-semibold'>No tabs found, please add a tab</Typography>
+                    </div>
                 )
             }
 
@@ -250,11 +254,15 @@ const CollegeTabs = ({ collegeId }: IProps) => {
                                     Description
                                 </FormLabel>
                                 <FormControl>
-                                    <Textarea
-                                        {...field}
-                                        disabled={!isEditing && !isAdding}
-                                        placeholder="Enter college description"
+                                    <MDXEditor
+                                        editable={isEditing || isAdding}
+                                        markdown={field.value || ''}
+                                        onChange={(markdown) => {
+                                            field.onChange(markdown);
+                                        }}
+                                        className='max-h-[400px] overflow-y-auto'
                                     />
+
                                 </FormControl>
                             </FormItem>
                         )}
